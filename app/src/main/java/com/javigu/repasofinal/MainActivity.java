@@ -43,6 +43,8 @@ public class MainActivity extends AppCompatActivity {
     int posicion;
     //sacar contexto
     private static MainActivity mApp = null;
+    //objeto de la clase fragment descipcion
+    FragmentDescripcion fgDesc;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
         ivProvincia = findViewById(R.id.ivProvincias);
         btnAtras = findViewById(R.id.btnAtras);
         btnSiguiente = findViewById(R.id.btnSiguiente);
+        fgDesc = new FragmentDescripcion();
 
         //referencia al recyclarfview
         rv = findViewById(R.id.rv);
@@ -112,6 +115,15 @@ public class MainActivity extends AppCompatActivity {
                 Intent i = new Intent(v.getContext(), MapsProvincia.class);
                 i.putExtra("maps_provincia", coords);
                 startActivity(i);
+            }
+        });
+
+        //TextvIew del titulo tambien se puede pulsar, abrirá un fragmento con la imagen y la descripcion
+        tvNombre.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String id = provincias_json.get(posicion).getId();
+                getSupportFragmentManager().beginTransaction().replace(R.id.contendorDescripcion, fgDesc.newInstance(id)).commit();
             }
         });
 
